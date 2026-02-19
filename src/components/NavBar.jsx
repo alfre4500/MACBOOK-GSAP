@@ -12,7 +12,7 @@ const NavBar = () => {
                        <a href={link.label} >{link.label} </a>  </li>
                 ) )}
             </ul>
-            <div className=" flex-center gap-3">
+            <div className="flex items-center justify-center gap-3">
 <button>
     <img src="/search.svg" alt="Search" />
 </button>
