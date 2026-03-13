@@ -41,36 +41,49 @@ const performanceImgPositions = [
         id: "p1",
         left: 5,
         bottom: 65,
+        // Mobile: match the mobile CSS position (max-sm:left-[33%])
+        mobileLeft: 33,
     },
     {
         id: "p2",
         right: 10,
         bottom: 60,
+        // Mobile: match the mobile CSS position (max-sm:right-[37%])
+        mobileRight: 37,
     },
     {
         id: "p3",
         right: -5,
         bottom: 45,
+        // Mobile: match the mobile CSS position (max-sm:right-[35%])
+        mobileRight: 35,
     },
     {
         id: "p4",
         right: -10,
         bottom: 0,
+        // Mobile: match the mobile CSS position (max-sm:right-[30%])
+        mobileRight: 30,
     },
     {
         id: "p5",
         left: 20,
         bottom: 50,
+        // p5 stays centered (CSS keeps it centered) so no mobile override needed.
     },
     {
         id: "p6",
         left: 2,
         bottom: 30,
+        // Mobile: match the mobile CSS position (max-sm:left-[35%])
+        mobileLeft: 35,
     },
     {
         id: "p7",
         left: -5,
         bottom: 0,
+        // Mobile: match the mobile CSS position (max-sm:left-[35%])
+        mobileLeft: 35,
     },
 ];
 

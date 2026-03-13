@@ -1,26 +1,28 @@
-
-import { useGLTF, useTexture } from '@react-three/drei'
+import React, { useEffect } from 'react';
+import { useGLTF, useTexture } from '@react-three/drei';
 import useMacbookStore from '../../store/index.js';
-import { useEffect } from 'react';
-import {Color} from 'three';  
+import { SRGBColorSpace } from 'three';  
 import { noChangeParts } from '../../constants';
 
-export default  function Macbook14(props) {
-  const {color } = useMacbookStore();
-  const { nodes, materials , scene } = useGLTF('/models/macbook-14-transformed.glb');
+export default function Macbook14(props) {
+  const { color } = useMacbookStore();
+  const { nodes, materials, scene } = useGLTF('/models/macbook-14-transformed.glb');
 
-  const texture = useTexture("/screen.png");
+  // 1. Configuramos la textura directamente en el callback
+  const texture = useTexture("/screen.png", (tex) => {
+    tex.colorSpace = SRGBColorSpace;
+    tex.flipY = false; 
+    tex.needsUpdate = true;
+  });
 
-
-useEffect(() => {
-  scene.traverse((child) =>{
-    if(child.isMesh){
-      if(!noChangeParts.includes(child.name)){
-        child.material.color = new Color(color);
+  // 2. Cambiamos el color de los materiales
+  useEffect(() => {
+    scene.traverse((child) => {
+      if (child.isMesh && !noChangeParts.includes(child.name)) {
+        child.material.color.set(color);
       }
-    }
-  })  
-},[color, scene])
+    });
+  }, [color, scene]);
 
   return (
     <group {...props} dispose={null}>
@@ -41,12 +43,15 @@ useEffect(() => {
       <mesh geometry={nodes.Object_82.geometry} material={materials.gMtYExgrEUqPfln} rotation={[Math.PI / 2, 0, 0]} />
       <mesh geometry={nodes.Object_96.geometry} material={materials.PaletteMaterial003} rotation={[Math.PI / 2, 0, 0]} />
       <mesh geometry={nodes.Object_107.geometry} material={materials.JvMFZolVCdpPqjj} rotation={[Math.PI / 2, 0, 0]} />
-      <mesh geometry={nodes.Object_123.geometry} material={materials.sfCQkHOWyrsLmor} rotation={[Math.PI / 2, 0, 0]} >
+      
+      {/* 3. Pantalla lista sin errores de material */}
+      <mesh geometry={nodes.Object_123.geometry} rotation={[Math.PI / 2, 0, 0]} >
         <meshBasicMaterial map={texture} />
       </mesh>
+      
       <mesh geometry={nodes.Object_127.geometry} material={materials.ZCDwChwkbBfITSW} rotation={[Math.PI / 2, 0, 0]} />
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/models/macbook-14-transformed.glb')
+useGLTF.preload('/models/macbook-14-transformed.glb');
